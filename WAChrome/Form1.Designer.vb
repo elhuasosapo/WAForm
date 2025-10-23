@@ -22,6 +22,7 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         WebView2 = New Microsoft.Web.WebView2.WinForms.WebView2()
         Panel = New Panel()
         TableLayoutPanel1 = New TableLayoutPanel()
@@ -177,9 +178,10 @@ Partial Class Form1
         BackColor = Color.FromArgb(CByte(33), CByte(33), CByte(33))
         ClientSize = New Size(1184, 861)
         Controls.Add(Panel)
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
         Name = "Form1"
         StartPosition = FormStartPosition.CenterScreen
-        Text = "Form1"
+        Text = "WAForm"
         CType(WebView2, ComponentModel.ISupportInitialize).EndInit()
         Panel.ResumeLayout(False)
         TableLayoutPanel1.ResumeLayout(False)
