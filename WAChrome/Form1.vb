@@ -1,26 +1,36 @@
-﻿Imports Microsoft.Web.WebView2.Core
+﻿Imports System.IO
 Imports System.Text
+Imports Microsoft.Web.WebView2.Core
 
 Public Class Form1
 
+    Private Config As ConfigManager.ConfigData
+
+
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
+            Dim configPath As String = Path.Combine(Application.StartupPath, "messaggi.json")
+
+            ' Carica o crea automaticamente il file
+            Config = ConfigManager.CaricaOPrepara(configPath)
+
             Await WebView2.EnsureCoreWebView2Async(Nothing)
             WebView2.CoreWebView2.Navigate("https://web.whatsapp.com/")
             LblStato.Text = "Carica WhatsApp Web e accedi al tuo account..."
-            ' WebView2.CoreWebView2.OpenDevToolsWindow() ' (opzionale per debug, lasciato commentato)
         Catch ex As Exception
-            LblStato.Text = "Errore WebView2: " & ex.Message
+            LblStato.Text = "Errore WebView2 o caricamento config: " & ex.Message
         End Try
     End Sub
 
+
     Private Async Sub BtnConferma_Click(sender As Object, e As EventArgs) Handles BtnConferma.Click
-        Await InviaMessaggioAsync(TxtNumero.Text.Trim(), "Ciao, la tua prenotazione è confermata ✅")
+        Await InviaMessaggioAsync(TxtNumero.Text.Trim(), Config.messaggi.conferma)
     End Sub
 
     Private Async Sub BtnRifiuta_Click(sender As Object, e As EventArgs) Handles BtnRifiuta.Click
-        Await InviaMessaggioAsync(TxtNumero.Text.Trim(), "Ci dispiace, non possiamo accettare la tua prenotazione. ❌")
+        Await InviaMessaggioAsync(TxtNumero.Text.Trim(), Config.messaggi.rifiuta)
     End Sub
+
 
     ' Escape sicuro per testo JavaScript
     Private Function JsEscape(s As String) As String
