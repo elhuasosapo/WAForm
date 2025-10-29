@@ -7,18 +7,33 @@ Public Class ConfigManager
     Public Class Messaggi
         Public Property conferma As String
         Public Property rifiuta As String
+
+        ' Elenco di messaggi extra, ognuno con titolo e testo
+        Public Property extra As List(Of MessaggioExtra)
     End Class
+
+    Public Class MessaggioExtra
+        Public Property titolo As String
+        Public Property testo As String
+    End Class
+
+
 
     Public Class ConfigData
         Public Property messaggi As Messaggi
     End Class
 
     Private Shared ReadOnly DefaultConfig As New ConfigData With {
-        .messaggi = New Messaggi With {
-            .conferma = "Ciao, la tua prenotazione è confermata ✅",
-            .rifiuta = "Ci dispiace, non possiamo accettare la tua prenotazione. ❌"
+    .messaggi = New Messaggi With {
+        .conferma = "Ciao, la tua prenotazione è confermata ✅",
+        .rifiuta = "Ci dispiace, non possiamo accettare la tua prenotazione. ❌",
+        .extra = New List(Of MessaggioExtra) From {
+            New MessaggioExtra With {.titolo = "Promemoria", .testo = "Non dimenticare il tuo appuntamento 📅"},
+            New MessaggioExtra With {.titolo = "Ringraziamento", .testo = "Grazie per averci scelto 🙏"}
         }
     }
+}
+
 
     ''' <summary>
     ''' Carica il file di configurazione; se non esiste, lo crea con i valori di default.

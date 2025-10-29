@@ -9,19 +9,25 @@ Public Class Form1
 
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
-            Dim configPath As String = Path.Combine(Application.StartupPath, "messaggi.json")
+            ' Gestione argomenti da riga di comando
+            Dim args() As String = Environment.GetCommandLineArgs()
+            If args.Length > 1 Then
+                TxtNumero.Text = args(1) ' il primo argomento dopo l'eseguibile
+            End If
 
-            ' Carica o crea automaticamente il file
+            Dim configPath As String = Path.Combine(Application.StartupPath, "messaggi.json")
             Config = ConfigManager.CaricaOPrepara(configPath)
 
             Await WebView2.EnsureCoreWebView2Async(Nothing)
             WebView2.CoreWebView2.Navigate("https://web.whatsapp.com/")
             LblStato.Text = "Carica WhatsApp Web e accedi al tuo account..."
+
+            GeneraPulsantiExtra()
+
         Catch ex As Exception
-            LblStato.Text = "Errore WebView2 o caricamento config: " & ex.Message
+            LblStato.Text = "Errore: " & ex.Message
         End Try
     End Sub
-
 
     Private Async Sub BtnConferma_Click(sender As Object, e As EventArgs) Handles BtnConferma.Click
         Await InviaMessaggioAsync(TxtNumero.Text.Trim(), Config.messaggi.conferma)
@@ -166,5 +172,76 @@ Public Class Form1
         ' non mostrare MessageBox qui, solo ritorniamo False
         Return False
     End Function
+
+    Private Sub GeneraPulsantiExtra()
+        If Config?.messaggi?.extra Is Nothing OrElse Config.messaggi.extra.Count = 0 Then Exit Sub
+
+        ' 🔹 Pulisce solo le prime due celle della prima riga
+        For col = 0 To 1
+            Dim controlToRemove = TableLayoutPanel2.GetControlFromPosition(col, 0)
+            If controlToRemove IsNot Nothing Then
+                TableLayoutPanel2.Controls.Remove(controlToRemove)
+                controlToRemove.Dispose()
+            End If
+        Next
+
+        ' 🔹 Aggiunge fino a 2 pulsanti extra nella prima riga
+        Dim maxPulsanti As Integer = Math.Min(2, Config.messaggi.extra.Count)
+
+        For i = 0 To maxPulsanti - 1
+            Dim msg = Config.messaggi.extra(i)
+
+            Dim btn As New Button()
+            btn.Name = $"BtnExtra{i}"
+            btn.Text = msg.titolo
+            btn.Dock = DockStyle.Fill
+            btn.Margin = New Padding(5)
+            btn.Tag = msg.testo
+            btn.Height = 35
+
+            AddHandler btn.Click, AddressOf BtnExtra_Click
+
+            TableLayoutPanel2.Controls.Add(btn, i, 0)
+        Next
+    End Sub
+
+
+    Private Async Sub BtnExtra_Click(sender As Object, e As EventArgs)
+        Dim btn = TryCast(sender, Button)
+        If btn Is Nothing Then Exit Sub
+
+        Dim testoMessaggio As String = TryCast(btn.Tag, String)
+        If String.IsNullOrEmpty(testoMessaggio) Then Exit Sub
+
+        Await InviaMessaggioAsync(TxtNumero.Text.Trim(), testoMessaggio)
+    End Sub
+
+    Private Sub BtnRicaricaConfig_Click(sender As Object, e As EventArgs) Handles BtnRicaricaConfig.Click
+        RicaricaConfigurazione()
+    End Sub
+
+    Private Async Sub EvidenziaStatoAsync()
+        Dim originalColor = LblStato.ForeColor
+        LblStato.ForeColor = Color.Green
+        Await Task.Delay(1000)
+        LblStato.ForeColor = originalColor
+    End Sub
+
+    Private Sub RicaricaConfigurazione()
+        Try
+            Dim configPath As String = Path.Combine(Application.StartupPath, "messaggi.json")
+
+            ' 🔹 Ricarica il file JSON aggiornato
+            Config = ConfigManager.CaricaOPrepara(configPath)
+
+            ' 🔹 Rigenera i pulsanti extra nella TableLayoutPanel2
+            GeneraPulsantiExtra()
+
+            LblStato.Text = "✅ Configurazione ricaricata con successo."
+        Catch ex As Exception
+            LblStato.Text = "❌ Errore durante la ricarica configurazione: " & ex.Message
+        End Try
+        EvidenziaStatoAsync()
+    End Sub
 
 End Class
