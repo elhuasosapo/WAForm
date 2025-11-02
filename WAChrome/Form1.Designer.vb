@@ -34,6 +34,7 @@ Partial Class Form1
         BtnConferma = New Button()
         BtnRifiuta = New Button()
         BtnRicaricaConfig = New Button()
+        btnMessaggi = New Button()
         CType(WebView2, ComponentModel.ISupportInitialize).BeginInit()
         Panel.SuspendLayout()
         TableLayoutPanel1.SuspendLayout()
@@ -48,7 +49,7 @@ Partial Class Form1
         WebView2.Dock = DockStyle.Fill
         WebView2.Location = New Point(3, 3)
         WebView2.Name = "WebView2"
-        WebView2.Size = New Size(1178, 775)
+        WebView2.Size = New Size(994, 571)
         WebView2.TabIndex = 0
         WebView2.ZoomFactor = 1R
         ' 
@@ -57,9 +58,9 @@ Partial Class Form1
         Panel.Controls.Add(TableLayoutPanel1)
         Panel.Controls.Add(TableLayoutPanel2)
         Panel.Dock = DockStyle.Fill
-        Panel.Location = New Point(0, 0)
+        Panel.Location = New Point(2, 2)
         Panel.Name = "Panel"
-        Panel.Size = New Size(1184, 861)
+        Panel.Size = New Size(1000, 657)
         Panel.TabIndex = 1
         ' 
         ' TableLayoutPanel1
@@ -73,7 +74,7 @@ Partial Class Form1
         TableLayoutPanel1.RowCount = 1
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Percent, 100F))
         TableLayoutPanel1.RowStyles.Add(New RowStyle(SizeType.Absolute, 20F))
-        TableLayoutPanel1.Size = New Size(1184, 781)
+        TableLayoutPanel1.Size = New Size(1000, 577)
         TableLayoutPanel1.TabIndex = 1
         ' 
         ' TableLayoutPanel2
@@ -92,6 +93,7 @@ Partial Class Form1
         TableLayoutPanel2.Controls.Add(BtnConferma, 0, 1)
         TableLayoutPanel2.Controls.Add(BtnRifiuta, 1, 1)
         TableLayoutPanel2.Controls.Add(BtnRicaricaConfig, 4, 0)
+        TableLayoutPanel2.Controls.Add(btnMessaggi, 4, 1)
         TableLayoutPanel2.Dock = DockStyle.Top
         TableLayoutPanel2.Location = New Point(0, 0)
         TableLayoutPanel2.MinimumSize = New Size(0, 80)
@@ -99,7 +101,7 @@ Partial Class Form1
         TableLayoutPanel2.RowCount = 2
         TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
         TableLayoutPanel2.RowStyles.Add(New RowStyle(SizeType.Percent, 50F))
-        TableLayoutPanel2.Size = New Size(1184, 80)
+        TableLayoutPanel2.Size = New Size(1000, 80)
         TableLayoutPanel2.TabIndex = 1
         ' 
         ' Label2
@@ -107,9 +109,9 @@ Partial Class Form1
         Label2.AutoSize = True
         Label2.Dock = DockStyle.Fill
         Label2.ForeColor = Color.Gainsboro
-        Label2.Location = New Point(683, 0)
+        Label2.Location = New Point(571, 0)
         Label2.Name = "Label2"
-        Label2.Size = New Size(447, 40)
+        Label2.Size = New Size(374, 40)
         Label2.TabIndex = 5
         Label2.Text = "Situazione/stato invio messaggio"
         Label2.TextAlign = ContentAlignment.MiddleCenter
@@ -119,9 +121,9 @@ Partial Class Form1
         Label1.AutoSize = True
         Label1.Dock = DockStyle.Fill
         Label1.ForeColor = Color.Gainsboro
-        Label1.Location = New Point(305, 0)
+        Label1.Location = New Point(255, 0)
         Label1.Name = "Label1"
-        Label1.Size = New Size(372, 40)
+        Label1.Size = New Size(310, 40)
         Label1.TabIndex = 3
         Label1.Text = "Numero destinatario (es. 393401234567)"
         Label1.TextAlign = ContentAlignment.MiddleCenter
@@ -131,9 +133,9 @@ Partial Class Form1
         LblStato.AutoSize = True
         LblStato.Dock = DockStyle.Fill
         LblStato.ForeColor = Color.White
-        LblStato.Location = New Point(683, 40)
+        LblStato.Location = New Point(571, 40)
         LblStato.Name = "LblStato"
-        LblStato.Size = New Size(447, 40)
+        LblStato.Size = New Size(374, 40)
         LblStato.TabIndex = 4
         LblStato.Text = "Label2"
         LblStato.TextAlign = ContentAlignment.MiddleCenter
@@ -143,9 +145,9 @@ Partial Class Form1
         TxtNumero.BackColor = Color.White
         TxtNumero.BorderStyle = BorderStyle.FixedSingle
         TxtNumero.Font = New Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        TxtNumero.Location = New Point(305, 43)
+        TxtNumero.Location = New Point(255, 43)
         TxtNumero.Name = "TxtNumero"
-        TxtNumero.Size = New Size(372, 29)
+        TxtNumero.Size = New Size(310, 29)
         TxtNumero.TabIndex = 2
         TxtNumero.TextAlign = HorizontalAlignment.Center
         ' 
@@ -157,7 +159,7 @@ Partial Class Form1
         BtnConferma.ForeColor = Color.Gainsboro
         BtnConferma.Location = New Point(3, 43)
         BtnConferma.Name = "BtnConferma"
-        BtnConferma.Size = New Size(145, 34)
+        BtnConferma.Size = New Size(120, 34)
         BtnConferma.TabIndex = 0
         BtnConferma.Text = "Conferma"
         BtnConferma.UseVisualStyleBackColor = False
@@ -167,9 +169,9 @@ Partial Class Form1
         BtnRifiuta.FlatAppearance.BorderColor = Color.Red
         BtnRifiuta.FlatStyle = FlatStyle.Flat
         BtnRifiuta.ForeColor = Color.Gainsboro
-        BtnRifiuta.Location = New Point(154, 43)
+        BtnRifiuta.Location = New Point(129, 43)
         BtnRifiuta.Name = "BtnRifiuta"
-        BtnRifiuta.Size = New Size(145, 34)
+        BtnRifiuta.Size = New Size(120, 34)
         BtnRifiuta.TabIndex = 1
         BtnRifiuta.Text = "Rifiuta"
         BtnRifiuta.UseVisualStyleBackColor = True
@@ -177,23 +179,36 @@ Partial Class Form1
         ' BtnRicaricaConfig
         ' 
         BtnRicaricaConfig.Dock = DockStyle.Fill
-        BtnRicaricaConfig.Font = New Font("Segoe UI", 12F)
-        BtnRicaricaConfig.Location = New Point(1136, 3)
+        BtnRicaricaConfig.Font = New Font("Arial", 25F, FontStyle.Regular, GraphicsUnit.Pixel, CByte(0))
+        BtnRicaricaConfig.Location = New Point(951, 3)
         BtnRicaricaConfig.Name = "BtnRicaricaConfig"
-        BtnRicaricaConfig.Size = New Size(45, 34)
+        BtnRicaricaConfig.Size = New Size(46, 34)
         BtnRicaricaConfig.TabIndex = 6
         BtnRicaricaConfig.Text = "♻"
         BtnRicaricaConfig.UseVisualStyleBackColor = True
+        ' 
+        ' btnMessaggi
+        ' 
+        btnMessaggi.Dock = DockStyle.Fill
+        btnMessaggi.Font = New Font("Arial", 25F, FontStyle.Regular, GraphicsUnit.Pixel, CByte(0))
+        btnMessaggi.Location = New Point(951, 43)
+        btnMessaggi.Name = "btnMessaggi"
+        btnMessaggi.Size = New Size(46, 34)
+        btnMessaggi.TabIndex = 7
+        btnMessaggi.Text = "🔠"
+        btnMessaggi.UseVisualStyleBackColor = True
         ' 
         ' Form1
         ' 
         AutoScaleDimensions = New SizeF(7F, 17F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(33), CByte(33), CByte(33))
-        ClientSize = New Size(1184, 861)
+        ClientSize = New Size(1004, 661)
         Controls.Add(Panel)
         Icon = CType(resources.GetObject("$this.Icon"), Icon)
+        IsMdiContainer = True
         Name = "Form1"
+        Padding = New Padding(2)
         StartPosition = FormStartPosition.CenterScreen
         Text = "WAForm"
         CType(WebView2, ComponentModel.ISupportInitialize).EndInit()
@@ -215,5 +230,6 @@ Partial Class Form1
     Friend WithEvents LblStato As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents BtnRicaricaConfig As Button
+    Friend WithEvents btnMessaggi As Button
 
 End Class

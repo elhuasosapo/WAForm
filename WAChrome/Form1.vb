@@ -244,4 +244,8 @@ Public Class Form1
         EvidenziaStatoAsync()
     End Sub
 
+    Private Sub btnMessaggi_Click(sender As Object, e As EventArgs) Handles btnMessaggi.Click
+        Dim editor As New FormEditor()
+        editor.ShowDialog()
+    End Sub
 End Class
